@@ -38,7 +38,6 @@ city2 = rp_df.iloc[1]
 print(cities_distance(city1,city2))
 
 cities_list = []
-i = 1
 num_cities = rp_df.shape[0]
 for i in range(1,num_cities + 1):
     cities_list.append(i)
@@ -46,6 +45,28 @@ for i in range(1,num_cities + 1):
 random.shuffle(cities_list)
 
 print(cities_list)
+
+
+def fitness(cities_list):
+    total_distance = 0
+    cities_len = len(cities_list)
+    for idx in range(0,cities_len):
+        city1_idx = cities_list[idx] - 1
+        city2_idx = cities_list[(idx + 1) % cities_len] - 1
+
+        city1 = rp_df.iloc[city1_idx]
+        city2 = rp_df.iloc[city2_idx]
+        dist = cities_distance(city1,city2)
+        total_distance = total_distance + dist
+
+    return(total_distance)
+
+
+print(fitness(cities_list))
+
+
+
+    
 
 
 
