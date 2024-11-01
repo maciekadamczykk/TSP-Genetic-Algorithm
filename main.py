@@ -34,18 +34,14 @@ def cities_distance(city1,city2):
     return round(result)
 city1 = rp_df.iloc[0]
 city2 = rp_df.iloc[1]
-
-print(cities_distance(city1,city2))
+#print(cities_distance(city1,city2))
 
 cities_list = []
 num_cities = rp_df.shape[0]
 for i in range(1,num_cities + 1):
     cities_list.append(i)
 
-random.shuffle(cities_list)
-
-print(cities_list)
-
+#random.shuffle(cities_list)
 
 def fitness(cities_list):
     total_distance = 0
@@ -62,16 +58,19 @@ def fitness(cities_list):
     return(total_distance)
 
 
-print(fitness(cities_list))
+def info():
+    print(cities_list)
+    print(f"The total distance is {fitness(cities_list)}")
 
 
+info()
 
-    
-
-
-
-
-
+def greedy_algorithm(starting_city):
+    num_cities = rp_df.shape[0]
+    visited = []
+    current_city = starting_city 
+    tour = [current_city + 1]
+    total_distance = 0
 
 
 
