@@ -22,9 +22,9 @@ def read_parser(file_path):
     df = pd.DataFrame(city_info, columns = ["ID", "X", "Y"])
     return df
 
-file_path = "berlin11_modified.tsp"
+file_path = "berlin52.tsp"
 rp_df = read_parser(file_path)
-print(rp_df)
+#print(rp_df)
 
 def cities_distance(city1,city2):
     x1, y1 = city1["X"], city1["Y"]
@@ -63,7 +63,7 @@ def info():
     print(f"The total distance is {fitness(cities_list)}")
 
 
-info()
+#info()
 
 def greedy_algorithm(starting_city):
     num_cities = rp_df.shape[0]
@@ -71,6 +71,55 @@ def greedy_algorithm(starting_city):
     current_city = starting_city 
     tour = [current_city + 1]
     total_distance = 0
+
+    visited.append(current_city)
+
+    while len(tour) < num_cities:
+        min_dist = float("inf")
+        nearest_city = None
+
+        for idx, city in rp_df.iterrows():
+            if idx not in visited:
+                distance = cities_distance(rp_df.iloc[current_city], city)
+                if distance < min_dist:
+                    min_dist = distance
+                    nearest_city = idx
+
+        tour.append(nearest_city + 1)
+        visited.append(nearest_city)
+        current_city = nearest_city
+        total_distance += min_dist
+
+    total_distance += cities_distance(rp_df.iloc[current_city], rp_df.iloc[starting_city])
+    return tour, total_distance
+
+def test_all_starting_points():
+    best_score = float("inf")
+    best_starting_city = None
+
+    for starting_city in range(rp_df.shape[0]):
+        tour, total_distance = greedy_algorithm(starting_city)
+        print(f"Starting city: {starting_city + 1}, Total distance: {total_distance}")
+
+        if total_distance < best_score:
+            best_score = total_distance
+            best_starting_city = starting_city + 1
+
+    print(f"\nBest starting city: {best_starting_city}, with total distance: {best_score}")
+
+test_all_starting_points()
+
+
+
+
+    
+
+
+
+
+
+
+
 
 
 
